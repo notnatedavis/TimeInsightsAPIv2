@@ -23,7 +23,27 @@ const Dashboard = () => {
     error: null
   });
 
+  const [visibleCards, setVisibleCards] = useState({
+    unix: true,
+    week: true,
+    leap: true,
+    progress: true
+  });
+
   const currentYear = getCurrentYear();
+
+  // load card visibility from localStorage
+  useEffect(() => {
+    const savedVisibility = localStorage.getItem('cardVisibility');
+    if (savedVisibility) {
+      setVisibleCards(JSON.parse(savedVisibility));
+    }
+  }, []);
+
+  // save card visibility to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('cardVisibility', JSON.stringify(visibleCards));
+  }, [visibleCards]);
 
   // API testing function - for debugging only
   const testAPIs = async () => {
@@ -92,7 +112,6 @@ const Dashboard = () => {
         });
 
         // handle progress API response
-
         setTimeData({
           unixTime: unixTimeResponse,
           week: weekResponse,
@@ -119,8 +138,31 @@ const Dashboard = () => {
     return () => clearInterval(interval);
   }, [currentYear]);
 
+  const handleRemoveCard = (cardType) => {
+    setVisibleCards(prev => ({
+      ...prev,
+      [cardType]: false
+    }));
+  };
+
+  // card restoration feature
+  const restoreCards = () => {
+    setVisibleCards({
+      unix: true,
+      week: true,
+      leap: true,
+      progress: true
+    });
+  };
+
+  // check if any cards are hidden
+  const anyCardsHidden = Object.values(visibleCards).some(visible => !visible);
+
   // debug console logs (temporary)
   console.log('Render state: ', timeData);
+
+  // format Unix time
+  const formattedTime = timeData.unixTime ? formatUnix(timeData.unixTime) : null;
 
   // loading skeleton
   if (timeData.loading) {
@@ -145,78 +187,94 @@ const Dashboard = () => {
       </div>
     );
   }
-
-  // format Unix time
-  const formattedTime = timeData.unixTime ? formatUnix(timeData.unixTime) : null;
   
   return (
-    <div className="dashboard-grid"> 
-      
-      <DashboardCard title="Current Unix Time"> 
-        {formattedTime ? ( 
-          // conditional rendering of Unix Time
-          // current format...
-          // "{month} {day#}, {year}" n/
-          // "HH:MM:SS {"AM"}/{"PM"}"
-          <>
-            <div className="unix-time">
-              <div className="date-part">{formattedTime.date}</div>
-              <div className="time-part">{formattedTime.time}</div>
-            </div>
-          </>
-          // <div className="timestamp">{timeData.unixTime}</div>
-          // ^ moved just because not needed
-        ) : (
-          <div className="loading-data">Loading...</div>
+    <>
+      <div className="dashboard-grid"> 
+        {visibleCards.unix && (
+          // visibleCard 1. Unix
+          <DashboardCard 
+            title="Current Unix Time" 
+            onRemove={() => handleRemoveCard('unix')}
+          > 
+            {formattedTime ? ( 
+              <>
+                <div className="unix-time">
+                  <div className="date-part">{formattedTime.date}</div>
+                  <div className="time-part">{formattedTime.time}</div>
+                </div>
+              </>
+            ) : (
+              <div className="loading-data">Loading...</div>
+            )}
+          </DashboardCard>
         )}
-      </DashboardCard>
 
-      <DashboardCard title="Week Number">
-        {timeData.week !== null && timeData.week !== undefined ? ( 
-          // conditional rendering of Week Number
-          <>
-            <div className="week-number">{timeData.week}/52</div>
-            <div>ISO Week</div>
-          </>
-        ) : (
-          <div className="loading-data">Loading...</div>
+        {visibleCards.week && (
+          // visibleCard 2. Week
+          <DashboardCard 
+            title="Week Number"
+            onRemove={() => handleRemoveCard('week')}
+          >
+            {timeData.week !== null && timeData.week !== undefined ? ( 
+              <>
+                <div className="week-number">{timeData.week}/52</div>
+                <div>ISO Week</div>
+              </>
+            ) : (
+              <div className="loading-data">Loading...</div>
+            )}
+          </DashboardCard>
         )}
-      </DashboardCard>
 
-      <DashboardCard title="Leap Year">
-        {timeData.isLeapYear !== null && timeData.isLeapYear !== undefined ? (
-          // conditional rendering of Leap Year
-          <>
-            <div className={`leap-year ${timeData.isLeapYear ? 'leap-yes' : 'leap-no'}`}>
-              {timeData.isLeapYear ? 'Yes' : 'No'}
-            </div>
-            <div>{currentYear}</div>
-          </>
-        ) : (
-          <div className="loading-data">Loading...</div>
+        {visibleCards.leap && (
+          // visibleCard 3. Leap
+          <DashboardCard 
+            title="Leap Year"
+            onRemove={() => handleRemoveCard('leap')}
+          >
+            {timeData.isLeapYear !== null && timeData.isLeapYear !== undefined ? (
+              <>
+                <div className={`leap-year ${timeData.isLeapYear ? 'leap-yes' : 'leap-no'}`}>
+                  {timeData.isLeapYear ? 'Yes' : 'No'}
+                </div>
+                <div>{currentYear}</div>
+              </>
+            ) : (
+              <div className="loading-data">Loading...</div>
+            )}
+          </DashboardCard>
         )}
-      </DashboardCard>
 
-      <DashboardCard title="Year Progress">
-        {timeData.progress ? (
-          // conditional rendering of Year Progress
-          <>
-            <ProgressRing percent={timeData.progress.percent || 0} />
-            <div className="progress-text">
-              {timeData.progress.percent || 0}% complete
-            </div>
-          </>
-        ) : (
-          <div className="loading-data">Loading...</div>
+        {visibleCards.progress && (
+          // visibleCard 4. Progress
+          <DashboardCard 
+            title="Year Progress"
+            onRemove={() => handleRemoveCard('progress')}
+          >
+            {timeData.progress ? (
+              <>
+                <ProgressRing percent={timeData.progress.percent || 0} />
+                <div className="progress-text">
+                  {timeData.progress.percent || 0}% complete
+                </div>
+              </>
+            ) : (
+              <div className="loading-data">Loading...</div>
+            )}
+          </DashboardCard>
         )}
-      </DashboardCard>
-    </div>
+      </div>
 
-    // include more conditional rendering cards
-
-    // implement (time till birthday , )
+      {anyCardsHidden && (
+        <div className="card-restore">
+          <button onClick={restoreCards} className="restore-btn">
+            ↻ Restore Hidden Cards
+          </button>
+        </div>
+      )}
+    </>
   );
 };
 
-// critical - must keep to allow importing in other files
 export default Dashboard;

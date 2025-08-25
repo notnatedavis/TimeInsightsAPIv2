@@ -7,11 +7,25 @@ import ErrorBoundary from './components/ErrorBoundary.jsx';
 import './App.css';
 
 function App() {
+  const handleGreenButtonClick = () => {
+    // example functionality - could be used for theme switching or other actions
+    console.log('Green button clicked!');
+    alert('Green button functionality can be implemented here!');
+  };
+
   return (
     <ErrorBoundary>
       <div className="app-container">
         <header className="app-header">
-          <h1>Time Insights Dashboard (v1)</h1>
+          <div className="header-content">
+            <h1>Time Insights Dashboard (v2)</h1>
+            <button 
+              className="green-button"
+              onClick={handleGreenButtonClick}
+            >
+              Add (update)
+            </button>
+          </div>
         </header>
         <main>
           <Dashboard />
