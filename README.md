@@ -23,12 +23,13 @@ TimeInsightsAPI/
         - Dashboard.css
     - App.jsx
     - App.css
-    - main.jsx
     - index.css
- - ReadMe.md
- - index.html
+    - main.jsx
  - .gitignore
+ - index.html
  - package.json
+ - ReadMe.md
+ - setupScript.sh
  - vite.config.js
 
 ## Table of Contents
