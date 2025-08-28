@@ -98,7 +98,7 @@ _Asahi Linux (Fedora)_
 
 _Windows_
 - download [Git](https://git-scm.com/downloads) , run installer and follow the setup instructions
-- download [Node.js](nodejs.org) , run installer and follow the setup instructions
+- download [Node.js](https://nodejs.org/en/download/) , run installer and follow the setup instructions
 - open CommandPrompt `Windows + cmd + enter`
 - `git --version` verifies installation
 - `node --version` verifies installation
