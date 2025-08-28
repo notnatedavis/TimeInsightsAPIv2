@@ -68,30 +68,6 @@
   font-weight: 500;
 }
 
-/* card restoration */
-.card-restore {
-  display: flex;
-  justify-content: center;
-  margin-top: 1.5rem;
-  grid-column: 1 / -1;
-}
-
-.restore-btn {
-  background: #f1f5f9;
-  border: 1px solid #cbd5e1;
-  border-radius: 20px;
-  padding: 8px 16px;
-  font-size: 0.9rem;
-  color: #475569;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.restore-btn:hover {
-  background: #e2e8f0;
-  color: #1e293b;
-}
-
 /* dark mode support */
 @media (prefers-color-scheme: dark) {
   .skeleton-loader {
