@@ -13,7 +13,7 @@ import {
 import { formatUnix, getCurrentYear } from '../utils/dateUtils';
 import './Dashboard.css';
 
-const Dashboard = () => {
+const Dashboard = ({ visibleCards, onRemoveCard }) => {
   const [timeData, setTimeData] = useState({
     unixTime: null,
     week: null,
@@ -23,29 +23,9 @@ const Dashboard = () => {
     error: null
   });
 
-  const [visibleCards, setVisibleCards] = useState({
-    unix: true,
-    week: true,
-    leap: true,
-    progress: true
-  });
-
   const currentYear = getCurrentYear();
 
-  // load card visibility from localStorage
-  useEffect(() => {
-    const savedVisibility = localStorage.getItem('cardVisibility');
-    if (savedVisibility) {
-      setVisibleCards(JSON.parse(savedVisibility));
-    }
-  }, []);
-
-  // save card visibility to localStorage when it changes
-  useEffect(() => {
-    localStorage.setItem('cardVisibility', JSON.stringify(visibleCards));
-  }, [visibleCards]);
-
-  // API testing function - for debugging only
+  // API testing  function - for debugging only
   const testAPIs = async () => {
     console.log('Testing APIs directly...');
     
@@ -138,13 +118,6 @@ const Dashboard = () => {
     return () => clearInterval(interval);
   }, [currentYear]);
 
-  const handleRemoveCard = (cardType) => {
-    setVisibleCards(prev => ({
-      ...prev,
-      [cardType]: false
-    }));
-  };
-
   // card restoration feature
   const restoreCards = () => {
     setVisibleCards({
@@ -195,7 +168,7 @@ const Dashboard = () => {
           // visibleCard 1. Unix
           <DashboardCard 
             title="Current Unix Time" 
-            onRemove={() => handleRemoveCard('unix')}
+            onRemove={() => onRemoveCard('unix')}
           > 
             {formattedTime ? ( 
               <>
@@ -214,7 +187,7 @@ const Dashboard = () => {
           // visibleCard 2. Week
           <DashboardCard 
             title="Week Number"
-            onRemove={() => handleRemoveCard('week')}
+            onRemove={() => onRemoveCard('week')}
           >
             {timeData.week !== null && timeData.week !== undefined ? ( 
               <>
@@ -231,7 +204,7 @@ const Dashboard = () => {
           // visibleCard 3. Leap
           <DashboardCard 
             title="Leap Year"
-            onRemove={() => handleRemoveCard('leap')}
+            onRemove={() => onRemoveCard('leap')}
           >
             {timeData.isLeapYear !== null && timeData.isLeapYear !== undefined ? (
               <>
@@ -250,7 +223,7 @@ const Dashboard = () => {
           // visibleCard 4. Progress
           <DashboardCard 
             title="Year Progress"
-            onRemove={() => handleRemoveCard('progress')}
+            onRemove={() => onRemoveCard('progress')}
           >
             {timeData.progress ? (
               <>
@@ -265,14 +238,6 @@ const Dashboard = () => {
           </DashboardCard>
         )}
       </div>
-
-      {anyCardsHidden && (
-        <div className="card-restore">
-          <button onClick={restoreCards} className="restore-btn">
-            ↻ Restore Hidden Cards
-          </button>
-        </div>
-      )}
     </>
   );
 };
