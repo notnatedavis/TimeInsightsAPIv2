@@ -130,4 +130,8 @@ _MacOS_
 
 ## Additional-Info
 
-This portion is for logging or storing notes relevent to the project and its scope. Future implementations I would like to create a setup script that automatically downloads dependencies and prerequisites to make it easier for the user (a faster seamless experience). I need to (update the ReadMe.md at the end, create script, fix card experience, implement ability to add cards)
+This portion is for logging or storing notes relevent to the project and its scope. 
+Future implementations
+- add all 5 card varients (bare bones functionality)
+- work on individual cards + css + animations + logic
+- update ReadMe.md + compilation
