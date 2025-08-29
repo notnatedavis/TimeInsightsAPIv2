@@ -13,7 +13,16 @@ import {
 import { formatUnix, getCurrentYear } from '../utils/dateUtils';
 import './Dashboard.css';
 
+/**
+ * Dashboard component
+ * 
+ * props :
+ * - visibleCards: object - controls which cards are visible
+ * - onRemoveCard: function - callback to remove a card
+ */
 const Dashboard = ({ visibleCards, onRemoveCard }) => {
+
+  // state for API data & UI status
   const [timeData, setTimeData] = useState({
     unixTime: null,
     week: null,
@@ -25,7 +34,7 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
 
   const currentYear = getCurrentYear();
 
-  // API testing  function - for debugging only
+  // debugging function for direct API testing (remove upon completion)
   const testAPIs = async () => {
     console.log('Testing APIs directly...');
     
@@ -54,10 +63,12 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
     // call API test function once component mounts
     testAPIs();
     
+    // fetch all required data from API
     const fetchData = async () => {
       setTimeData(prev => ({ ...prev, loading: true }));
       
       try {
+        // fetch all APIs in parallel, handle all errors individually
         const [unixTimeResponse, weekResponse, leapYearResponse, progressResponse] = await Promise.all([
           
           // graceful API error coverage
@@ -91,7 +102,7 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
           progress: progressResponse 
         });
 
-        // handle progress API response
+        // update state with fetched data
         setTimeData({
           unixTime: unixTimeResponse,
           week: weekResponse,
@@ -118,16 +129,6 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
     return () => clearInterval(interval);
   }, [currentYear]);
 
-  // card restoration feature
-  const restoreCards = () => {
-    setVisibleCards({
-      unix: true,
-      week: true,
-      leap: true,
-      progress: true
-    });
-  };
-
   // check if any cards are hidden
   const anyCardsHidden = Object.values(visibleCards).some(visible => !visible);
 
@@ -137,7 +138,7 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
   // format Unix time
   const formattedTime = timeData.unixTime ? formatUnix(timeData.unixTime) : null;
 
-  // loading skeleton
+  // render loading skeleton while fetching data
   if (timeData.loading) {
     return (
       <div className="dashboard-grid">
@@ -150,7 +151,7 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
     );
   }
 
-  // error state
+  // render error state if data fetch fails
   if (timeData.error) {
     return (
       <div className="error-state">
@@ -161,11 +162,13 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
     );
   }
   
+  // render dashboard cards based on visibility and data
   return (
     <>
-      <div className="dashboard-grid"> 
+      <div className="dashboard-grid"> {/* main dashboard */}
+        
+        {/* Unix Time Card */}
         {visibleCards.unix && (
-          // visibleCard 1. Unix
           <DashboardCard 
             title="Current Unix Time" 
             onRemove={() => onRemoveCard('unix')}
@@ -183,8 +186,8 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
           </DashboardCard>
         )}
 
+        {/* Week Number Card */}
         {visibleCards.week && (
-          // visibleCard 2. Week
           <DashboardCard 
             title="Week Number"
             onRemove={() => onRemoveCard('week')}
@@ -200,8 +203,8 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
           </DashboardCard>
         )}
 
+        {/* Leap Year Card */}
         {visibleCards.leap && (
-          // visibleCard 3. Leap
           <DashboardCard 
             title="Leap Year"
             onRemove={() => onRemoveCard('leap')}
@@ -219,8 +222,8 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
           </DashboardCard>
         )}
 
+        {/* Year Progress Card */}
         {visibleCards.progress && (
-          // visibleCard 4. Progress
           <DashboardCard 
             title="Year Progress"
             onRemove={() => onRemoveCard('progress')}
@@ -242,4 +245,5 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
   );
 };
 
+// critical - must keep to allow importing in other files
 export default Dashboard;

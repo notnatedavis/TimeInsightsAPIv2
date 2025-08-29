@@ -4,10 +4,25 @@
 import React, { useState } from 'react';
 import './DashboardCard.css'
 
+/**
+ * DashboardCard component props
+ * - title
+ * - children
+ * - onRemove
+ */
 const DashboardCard = ({ title, children, onRemove }) => {
+
+  // controls visibility of the remove button (shown on hover)
   const [showRemove, setShowRemove] = useState(false);
+
+  // confirm card removal (changes button appearance)
   const [confirmRemove, setConfirmRemove] = useState(false);
 
+  /**
+   * Handle click on remove button
+   * - first click sets confirm state
+   * - confirmation auto-cancels after 3 seconds
+   */
   const handleRemoveClick = () => {
     if (!confirmRemove) {
       setConfirmRemove(true);
@@ -16,13 +31,16 @@ const DashboardCard = ({ title, children, onRemove }) => {
       return;
     }
     
+    // call onRemove if confirmed
     onRemove && onRemove();
   };
 
   return (
     <div 
       className="dashboard-card"
+      // show remove button on mouse enter
       onMouseEnter={() => setShowRemove(true)}
+      // hide remove button and cancel confirmation on mouse leave
       onMouseLeave={() => {
         setShowRemove(false);
         setConfirmRemove(false);
