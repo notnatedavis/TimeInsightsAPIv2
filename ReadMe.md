@@ -1,37 +1,5 @@
 # TimeInsightsAPI (v2)
 
-_current project structure_  
-
-TimeInsightsAPI/
- - public/
-    - favicon.ico
-    - robots.txt
- - src/
-    - components/
-        - DashboardCard.jsx
-        - DashboardCard.css
-        - ProgressRing.jsx
-        - ProgressRing.css
-        - ErrorBoundary.jsx
-    - services/
-        - digidates.js
-    - utils/
-        - dateUtils.js
-        - errorHandler.js
-    - views/
-        - Dashboard.jsx
-        - Dashboard.css
-    - App.jsx
-    - App.css
-    - index.css
-    - main.jsx
- - .gitignore
- - index.html
- - package.json
- - ReadMe.md
- - setupScript.sh
- - vite.config.js
-
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
@@ -41,9 +9,9 @@ TimeInsightsAPI/
 
 ## Introduction
 
-TimeInsightsAPI is a repository containing `Time Insights Dashboard` , this is my attempt a creating a modern React-based web application that provides real-time (5-10sec request intervals) data open sourced through [DigiDates.de](digidates.de). This dashboard displays `4` key time related metrics sourced from the DigiDates.de REST API. Built with Vite for optimal performance and development experience, the application features a responsive grid layout, automatic data refresh, and robust error handling. Through clean, minimal, simplistic design this ensures an intuitive user experience on the client side while demonstrating techincal proficiency in React hooks, API integration, and modern JavaScript development practices on the host side.
+TimeInsightsAPI is a repository containing `Time Insights Dashboard` , this is my attempt a creating a modern React-based web application that provides real-time (5-10sec request intervals) data open sourced through [DigiDates.de](digidates.de). This dashboard displays `4` cards with time related metrics sourced from the DigiDates.de REST API. Built with Vite for optimal performance and development experience, the application features a responsive grid layout, automatic data refresh, and robust error handling. Through clean, minimal, simplistic design this ensures an intuitive user experience on the client side while demonstrating techincal proficiency in React hooks, API integration, and modern JavaScript development practices on the host side.
 
-### Order of Operations : (1-6) Project Execution Overview
+### Order of Operations : (1-x) Project Execution Overview
 
 *upon launching `npm run dev`*
 
@@ -77,15 +45,7 @@ TimeInsightsAPI is a repository containing `Time Insights Dashboard` , this is m
 
 ## Features
 
-- Real-time Unix Time Display : current timestamp with formatting
-- ISO Week Number Tracking : an accurate week calculation with visual presentation
-- Leap Year Detection : instant verification of current year's leap status
-- Annual Progress Visualization : an animated circular progress indicator showing the (current) year's completion
-- Responsive Design : an adaptable grid layout for desktop & mobile
-- Automatic Refresh : background data updates
-- Error Resilience : comprehensive error handling & coverage
-- Modern UI/UX : clean minimalist design with smooth animations + effects
-- API monitering : built-in endpoint testing & validation to detect potential issues
+- update this here
 
 ## Prerequisites
 
@@ -115,13 +75,6 @@ _MacOS_
 
 ## Usage 
 
-_Asahi Linux (Fedora)_
-1. `update`
-
-_Windows_
-1. `update`
-
-_MacOS_
 1. `cd` into desired location locally to store project
 2. `git clone` the repository locally , cd in  
 3. `npm install` for any dependencies  
@@ -130,14 +83,36 @@ _MacOS_
 
 ## Additional-Info
 
-This portion is for logging or storing notes relevent to the project and its scope. 
-Future implementations
-- add all 5 card varients (bare bones functionality) 
-use HTML5 Canvas, CSS animations, or libraries like p5.js are perfect for smooth, custom animations
-    - custom timer w/ all varients
-    - todo w/ (italics,bold) and on completion (strikethrough)
-    - weather ?
-    - random name picker
+This portion is for logging or storing notes relevent to the project and its scope. Future implementations I would like to create a setup script that automatically downloads dependencies and prerequisites to make it easier for the user (a faster seamless experience). I need to (update the ReadMe.md at the end, create script, fix card experience, implement ability to add cards)
 
-- work on individual cards + css + animations + logic
-- update ReadMe.md + compilation
+_current project structure_  
+
+TimeInsightsAPI/
+ - public/
+    - favicon.ico
+    - robots.txt
+ - src/
+    - components/
+        - DashboardCard.jsx
+        - DashboardCard.css
+        - ProgressRing.jsx
+        - ProgressRing.css
+        - ErrorBoundary.jsx
+    - services/
+        - digidates.js
+    - utils/
+        - dateUtils.js
+        - errorHandler.js
+    - views/
+        - Dashboard.jsx
+        - Dashboard.css
+    - App.jsx
+    - App.css
+    - index.css
+    - main.jsx
+ - .gitignore
+ - index.html
+ - package.json
+ - ReadMe.md
+ - setupScript.sh
+ - vite.config.js
