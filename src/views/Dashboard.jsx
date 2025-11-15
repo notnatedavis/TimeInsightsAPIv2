@@ -4,6 +4,9 @@
 import React, { useState, useEffect } from 'react';
 import DashboardCard from '../components/DashboardCard.jsx';
 import ProgressRing from '../components/ProgressRing.jsx';
+import NotesCard from '../components/NotesCard.jsx';
+import TodoCard from '../components/TodoCard.jsx';
+import TimerCard from '../components/TimerCard.jsx';
 import { 
   getUnixTime, 
   getWeek, 
@@ -168,7 +171,7 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
     <>
       <div className="dashboard-grid"> {/* main dashboard (conditional rendering) */}
         {visibleCards.intro && (
-          // visibleCard 1. Intro Card
+          // visibleCard 0. Intro Card
           <DashboardCard 
             title="Welcome !" 
             onRemove={() => onRemoveCard('intro')} // update 
@@ -181,7 +184,7 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
             </>
           </DashboardCard>
         )}
-        {/* visibleCard 2. Leap Year Card */}
+        {/* visibleCard 1. Leap Year Card */}
         {visibleCards.leap && (
           <DashboardCard 
             title="Leap Year"
@@ -200,7 +203,7 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
           </DashboardCard>
         )}
 
-        {/* visibleCard 3. Time & Year Progress : (components) */}
+        {/* visibleCard 2. Time & Year Progress : (components) */}
         {visibleCards.timeProgress && (
         <DashboardCard 
           title="Time & Year Progress" 
@@ -243,6 +246,20 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
             <div className="loading-data">Loading time data...</div>
           )}
         </DashboardCard>
+      )}
+      {/* visibleCard 3. Notes Card */}
+      {visibleCards.notes && (
+        <NotesCard onRemove={() => onRemoveCard('notes')} />
+      )}
+
+      {/* visibleCard 4. Todo Card */}
+      {visibleCards.todo && (
+        <TodoCard onRemove={() => onRemoveCard('todo')} />
+      )}
+
+      {/* visibleCard 5. Timer Card */}
+      {visibleCards.timer && (
+        <TimerCard onRemove={() => onRemoveCard('timer')} />
       )}
       </div>
     </>

@@ -3,6 +3,9 @@
 
 import React, { useState } from 'react';
 import './DashboardCard.css'
+import NotesCard from '../components/NotesCard.jsx';
+import TodoCard from '../components/TodoCard.jsx';
+import TimerCard from '../components/TimerCard.jsx';
 
 /**
  * DashboardCard component props
