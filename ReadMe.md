@@ -132,7 +132,7 @@ _MacOS_
 
 This portion is for logging or storing notes relevent to the project and its scope. 
 Future implementations
-- add all 5 card varients (bare bones functionality) 
+- add all 5 card varients (bare bones functionality) + intro card
 use HTML5 Canvas, CSS animations, or libraries like p5.js are perfect for smooth, custom animations
     - custom timer w/ all varients
     - todo w/ (italics,bold) and on completion (strikethrough)

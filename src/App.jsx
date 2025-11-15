@@ -19,10 +19,9 @@ function App() {
 
   // tracks which dashboard cards are visible
   const [visibleCards, setVisibleCards] = useState({
-    unix: true,
-    week: true,
-    leap: true,
-    progress: true
+    intro: true, 
+    // all other cards false (hidden) upon initial load
+    progress: false
   });
 
   // toggles 'Add Card' dropdown visibility
@@ -30,16 +29,27 @@ function App() {
     setShowOptions(!showOptions);
   };
 
-  // handles adding cards back to the dashboard
-  const handleOptionClick = (type) => {
-    if (type === 'unix-time') {
-      setVisibleCards(prev => ({ ...prev, unix: true }));
+  const handleOptionClick = (cardType) => {
+    // map option types to card state keys
+    const cardTypeMap = {
+      'time-progress': 'timeProgress',
+      'leap-year': 'leap',
+      'notes': 'notes',
+      'todo': 'todo',
+      'timer': 'timer'
+    };
+  
+    const stateKey = cardTypeMap[cardType];
+    if (stateKey) {
+      setVisibleCards(prev => ({ 
+        ...prev, 
+        [stateKey]: true 
+        }));
     }
-    // Add other types as needed
-
-    // UPDATE HERE WITH ALL NEW CARDS
+  
     setShowOptions(false);
   };
+
 
   // handles removing a card from the dashboard
   const handleRemoveCard = (cardType) => {
@@ -65,9 +75,9 @@ function App() {
                 <div className="vertical-options">
                   <div 
                     className="option-text"
-                    onClick={() => handleOptionClick('unix-time')}
+                    onClick={() => handleOptionClick('time-progress')}
                   >
-                    Unix Time
+                    Time Progress
                   </div>
                   <div 
                     className="option-text"
@@ -80,6 +90,18 @@ function App() {
                     onClick={() => handleOptionClick('todo')}
                   >
                     Todo
+                  </div>
+                  <div 
+                    className="option-text"
+                    onClick={() => handleOptionClick('leap-year')}
+                  >
+                    Leap Year
+                  </div>
+                  <div 
+                    className="option-text"
+                    onClick={() => handleOptionClick('timer')}
+                  >
+                    Timer
                   </div>
                 </div>
               )}

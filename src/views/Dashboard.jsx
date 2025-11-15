@@ -165,45 +165,22 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
   // render dashboard cards based on visibility and data
   return (
     <>
-      <div className="dashboard-grid"> {/* main dashboard */}
-        
-        {/* Unix Time Card */}
-        {visibleCards.unix && (
+      <div className="dashboard-grid"> {/* main dashboard (conditional rendering) */}
+        {visibleCards.intro && (
+          // visibleCard 1. Intro Card
           <DashboardCard 
-            title="Current Unix Time" 
-            onRemove={() => onRemoveCard('unix')}
+            title="Welcome !" 
+            onRemove={() => onRemoveCard('intro')} // update 
           > 
-            {formattedTime ? ( 
-              <>
-                <div className="unix-time">
-                  <div className="date-part">{formattedTime.date}</div>
-                  <div className="time-part">{formattedTime.time}</div>
-                </div>
-              </>
-            ) : (
-              <div className="loading-data">Loading...</div>
-            )}
+            <>
+              <p>This dashboard provides a multitude of cards with a variety of uses. Explore by using the "Add Card" button to customize your Dashboard by adding or removing cards as needed.</p>
+              <a href="https://github.com/notnatedavis/TimeInsightsAPIv2/tree/main?tab=readme-ov-file#features" target="_blank" rel="noopener noreferrer">
+                Features
+              </a>
+            </>
           </DashboardCard>
         )}
-
-        {/* Week Number Card */}
-        {visibleCards.week && (
-          <DashboardCard 
-            title="Week Number"
-            onRemove={() => onRemoveCard('week')}
-          >
-            {timeData.week !== null && timeData.week !== undefined ? ( 
-              <>
-                <div className="week-number">{timeData.week}/52</div>
-                <div>ISO Week</div>
-              </>
-            ) : (
-              <div className="loading-data">Loading...</div>
-            )}
-          </DashboardCard>
-        )}
-
-        {/* Leap Year Card */}
+        {/* visibleCard 2. Leap Year Card */}
         {visibleCards.leap && (
           <DashboardCard 
             title="Leap Year"
@@ -222,24 +199,50 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
           </DashboardCard>
         )}
 
-        {/* Year Progress Card */}
-        {visibleCards.progress && (
-          <DashboardCard 
-            title="Year Progress"
-            onRemove={() => onRemoveCard('progress')}
-          >
-            {timeData.progress ? (
-              <>
+        {/* visibleCard 3. Time & Year Progress : (components) */}
+        {visibleCards.timeProgress && (
+        <DashboardCard 
+          title="Time & Year Progress" 
+          onRemove={() => onRemoveCard('timeProgress')}
+        > 
+          {timeData.progress && formattedTime ? ( 
+            <div className="combined-time-card">
+              {/* Progress Section */}
+              <div className="progress-section">
                 <ProgressRing percent={timeData.progress.percent || 0} />
                 <div className="progress-text">
-                  {timeData.progress.percent || 0}% complete
+                  {timeData.progress.percent || 0}% of {currentYear}
                 </div>
-              </>
-            ) : (
-              <div className="loading-data">Loading...</div>
-            )}
-          </DashboardCard>
-        )}
+              </div>
+              
+              {/* Time Details Section */}
+              <div className="time-details">
+                <div className="time-detail-item">
+                  <span className="label">Unix Time:</span>
+                  <span className="value">{timeData.unixTime}</span>
+                </div>
+                
+                <div className="time-detail-item">
+                  <span className="label">Current Date:</span>
+                  <span className="value">{formattedTime.date}</span>
+                </div>
+                
+                <div className="time-detail-item">
+                  <span className="label">Current Time:</span>
+                  <span className="value">{formattedTime.time}</span>
+                </div>
+                
+                <div className="time-detail-item">
+                  <span className="label">Week Number:</span>
+                  <span className="value">{timeData.week}/52 (ISO Week)</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="loading-data">Loading time data...</div>
+          )}
+        </DashboardCard>
+      )}
       </div>
     </>
   );
