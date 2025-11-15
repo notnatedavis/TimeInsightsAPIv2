@@ -120,6 +120,7 @@ const Dashboard = ({ visibleCards, onRemoveCard }) => {
           loading: false,
           error: 'Failed to load time data.'
         });
+        console.error('Update failed:', error);
       }
     };
 
